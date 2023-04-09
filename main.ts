@@ -38,7 +38,7 @@ serve((req: Request) => {
   if (pathname.startsWith("/api")) {
     //get the path after /api
     const apiPath = pathname.replace("/api", "");
-    if (apiPath === "/time") {
+    if (apiPath === "/datetimenow") {
       return new Response(time.getDateTime(), json200);
     }
   }
