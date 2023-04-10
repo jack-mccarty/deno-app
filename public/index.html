@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/styles/pico.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/material.min.css" integrity="sha512-FKzMeNkm8zqCguwqHyTYskFTD4L7WW5znImGuc+fYTIJGRpUWszuJLGh9Bq8smPaPzN0LtqagnRgihN53PL04A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Jack McCarty</title>
 </head>
 <body>
@@ -14,11 +18,48 @@
         <li><strong>Jack McCarty</strong></li>
       </ul>
       <ul>
-        <!-- <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li> -->
+      <li>
+        <a data-tooltip="View project on Github" 
+        data-placement="left"
+        href="https://github.com/jack-mccarty/jmccarty-deno" target="_blank">
+          <i class="fa-brands fa-github"></i></a></li>
       </ul>
     </nav>
 
+    <article>
+      Welcome to my project site! This site hosts a collection of simple APIs and tools that I am building for my personal use. As a developer, I enjoy experimenting with new tools and frameworks, and this project is a way for me to explore Deno and the Oak framework. While this is a personal side project that I'm not investing a lot of resources into, I'm happy to make it publicly available on Deno Deploy and share the source code on Github. Thanks for stopping by!
+        </article>
+
+        <article>
+          <header>APIs</header>
+          <p>/api/time/currentdatetime</p>
+          returns the current date and time in JSON format like this:
+         <pre><code class=language-JSON" id="date-time-current-example"></code></pre>
+        </article>
+
+
    </main>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" integrity="sha512-bgHRAiTjGrzHzLyKOnpFvaEpGzJet3z4tZnXGjpsCcqOnAH6VGUx9frc5bcIhKTVLEiCO6vEhNAgx5jtLUYrfA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+   <script>
+    const main = async () => {
+      
+      const dateTimeExample = await fetch('/api/time/currentdatetime');
+    const dateTimeExampleJson = await dateTimeExample.json();
+    document.getElementById('date-time-current-example').innerHTML = JSON.stringify(dateTimeExampleJson, null, 2);
+
+
+    //highilight the code blocks
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+
+    }
+
+    main();
+
+
+   </script>
 </body>
 </html>

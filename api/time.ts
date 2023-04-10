@@ -25,7 +25,7 @@ const months = [
   "November",
   "December",
 ];
-export function getDateTime() {
+export function getCurrentDateTime() {
   const now = new Date();
   return JSON.stringify({
     day: now.getDate(),
@@ -43,3 +43,4 @@ export function getDateTime() {
     ampm: now.getHours() >= 12 ? "pm" : "am",
   });
 }
+

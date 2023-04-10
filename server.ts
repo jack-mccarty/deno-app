@@ -28,6 +28,12 @@ serve((req: Request) => {
     return serveFile(req, "./public/index.html");
   }
 
+  if(pathname === "/denoserver") {
+    return serveFile(req, "./public/denoserver.html");
+  }
+
+
+  //serve the public directory  
   if (pathname.startsWith("/public")) {
     return serveDir(req, {
       fsRoot: "public",
@@ -35,15 +41,18 @@ serve((req: Request) => {
     });
   }
 
+    //serve the apis
   if (pathname.startsWith("/api")) {
-    //get the path after /api
-    const apiPath = pathname.replace("/api", "");
-    if (apiPath === "/datetimenow") {
-      return new Response(time.getDateTime(), json200);
+    //sple the pathname into an array
+    const path = pathname.split("/");
+    if(path[2] === "time") {
+        if(path[3] === "currentdatetime") {
+            return new Response(time.getCurrentDateTime(), json200);
+        }
     }
-  }
+    }
 
-  return new Response("404: Not Found", {
-    status: 404,
-  });
+    //return the 404.html page
+
+    return serveFile(req, "./public/404.html");
 });

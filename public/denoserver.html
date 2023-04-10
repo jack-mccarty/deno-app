@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/styles/pico.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+
+    <link rel="stylesheet" href="/public/styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/base16/material.min.css" integrity="sha512-FKzMeNkm8zqCguwqHyTYskFTD4L7WW5znImGuc+fYTIJGRpUWszuJLGh9Bq8smPaPzN0LtqagnRgihN53PL04A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Jack McCarty</title>
+</head>
+<body>
+    <main class="container">
+        <div class="section">
+            <hgroup>
+                <h2>Build a Deno Server with Static Files</h2>
+                <h3>Let's get started walking through installing Deno
+                    and building a basic webserver with Deno's built in http server.</h3>
+                </h3>
+            </hgroup>
+        </div>
+       
+
+     
+            <h4>Step One: Installing Deno</h4>
+            <p>If you haven't already, install Deno.</p>
+
+            Linux:
+            <pre><code class="bash">
+                curl -fsSL https://deno.land/x/install/install.sh | sh
+            </code></pre>
+
+            Windows (PowerShell):
+            <pre><code class="powershell">
+                iwr https://deno.land/x/install/install.ps1 -useb | iex
+            </code></pre>
+        
+     
+
+            <h4>Step Two: Create Project Folder</h4>
+            <p>Next, create a folder for your project and navigate to it. I'm going to call mine "deno-server".</p>
+
+            Linux and Windows:
+            <pre><code class="bash">
+                mkdir deno-server
+                cd deno-server
+            </code></pre>    
+
+
+            <h4>Step Three: Create a Server File</h4>
+            <p>Now, create a file called "server.ts" and open it in your favorite text editor.</p>
+            <pre><code class="typescript">
+                //server.ts
+                import { serve } from "https://deno.land/std/http/server.ts";
+
+                const s = serve({ port: 8000 }); //if you leave out it
+                will default to port 8000 
+                console.log("http://localhost:8000/");
+
+                for await (const req of s) {
+                req.respond({ body: "Hello World from Deno });
+                }
+            </code></pre>
+
+            <p>Navigate to <a href="http://localhost:8000", target="_blank">localhost:8000</a> to verify the page is running.</p>
+
+            <h4>Step Four: Add Static Files</h4>
+            <p>Now, let's add some static files to our server. Create a folder called "public" and add an index.html file to it.</p>
+
+            <pre><code class="xml">
+                <!-- index.html -->
+                &lt;!DOCTYPE html&gt;
+                &lt;html lang=&quot;en&quot;&gt;
+                &lt;head&gt;
+                    &lt;meta charset=&quot;UTF-8&quot;&gt;
+                    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+                    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+                    &lt;title&gt;Your Awesome Page&lt;/title&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    &lt;h1&gt;Hello World&lt;/h1&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+            </code></pre>
+            
+            <p>Now, let's add some styles to our page. Create a folder called "styles" and add a main.css file to it.</p>
+
+            <pre><code class="css">
+                /* main.css */
+                body {
+                    background-color: #f5f5f5;
+                    font-family: sans-serif;
+                }
+            </code></pre>
+
+            <p>We are going to add a script to our page. Create a folder called "scripts" and add a main.js file to it.</p>
+
+            <pre><code class="javascript">
+                //main.js
+                console.log("Hello World from Deno");
+            </code></pre>
+
+            <p>Your file structure should now look like this:</p>
+            <pre><code class="html">
+           deno-server
+                ├── public
+                │   └── index.html
+                ├── scripts
+                │   └── main.js
+                ├── server.ts
+                └── styles
+                    └── main.css
+                </code>
+                </pre>
+
+            <h4>Update the server.ts File to Serve Your Site</h4>
+            <p>Let's update our server.ts file to serve our static files.</p>
+            
+            <p>Navigate to your server.ts file and update it like so:</p>
+
+            <pre><code class="typescipt">
+                //server.ts
+                import { serve } from "https://deno.land/std/http/server.ts";
+
+                const s = serve({ port: 8000 });
+                console.log("http://localhost:8000/");
+              
+                // We are going to go ahead and get the pathname so you can use it later
+
+                serve((req: Request) => {
+                    const pathname = new URL(req.url).pathname;
+                    if (pathname === "/") {
+                        return serveFile(req, "./public/index.html");
+                      }
+                    
+                      //serve the public directory  
+                      if (pathname.startsWith("/public")) {
+                        return serveDir(req, {
+                          fsRoot: "public",
+                          urlRoot: "public",
+                        });
+                      }
+                });
+            </code></pre>
+
+            <p>Make sure to update your index.html to serve the css and js files from public
+                by adding the following to the head of your index.html file.
+            </p>
+
+            <pre><code>
+                &lt;link rel=&quot;stylesheet&quot; href=&quot;/public/styles/main.css&quot;&gt;
+                &lt;script src=&quot;/public/scripts/main.js&quot;&gt;&lt;/script&gt;
+            </code></pre>
+
+            <p>Now, navigate to <a href="http://localhost:8000", target="_blank">localhost:8000</a> to see your site.</p>
+
+            <p>There ya go! That should be enough to get you started on a a static site with pure html/css/js and Deno!</p>
+
+
+
+      
+
+
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" integrity="sha512-bgHRAiTjGrzHzLyKOnpFvaEpGzJet3z4tZnXGjpsCcqOnAH6VGUx9frc5bcIhKTVLEiCO6vEhNAgx5jtLUYrfA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+   <script>
+    const main = async () => {
+      
+    //highilight the code blocks
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+
+    }
+
+    main();
+
+
+   </script>
+</body>
+</html>
