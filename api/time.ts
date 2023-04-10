@@ -43,4 +43,3 @@ export function getCurrentDateTime() {
     ampm: now.getHours() >= 12 ? "pm" : "am",
   });
 }
-
