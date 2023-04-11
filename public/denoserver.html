@@ -81,7 +81,7 @@
             <h4>Step Four: Add Static Files</h4>
             <p>Now, let's add some static files to our server. Create a folder called "public" and add an index.html file to it.</p>
 
-            <pre><code class="xml">
+            <pre><code class="html">
                 <!-- index.html -->
                 &lt;!DOCTYPE html&gt;
                 &lt;html lang=&quot;en&quot;&gt;
@@ -109,13 +109,13 @@
 
             <p>We are going to add a script to our page. Create a folder called "scripts" and add a main.js file to it.</p>
 
-            <pre><code class="language-javascript">
+            <pre><code class="javascript">
                 //main.js
                 console.log("Hello World from Deno");
             </code></pre>
 
             <p>Your file structure should now look like this:</p>
-            <pre><code class="language-html">
+            <pre><code class="html">
            deno-server
                 ├── public
                 │   └── index.html
@@ -132,7 +132,7 @@
             
             <p>Navigate to your server.ts file and update it like so:</p>
 
-            <pre><code class="language-typsecript">
+            <pre><code class="typsecript">
                 //server.ts
                 import { serve } from "https://deno.land/std/http/server.ts";
 
@@ -161,7 +161,7 @@
                 by adding the following to the head of your index.html file.
             </p>
 
-            <pre><code class="language-html">
+            <pre><code class="html">
                 &lt;link rel=&quot;stylesheet&quot; href=&quot;/public/styles/main.css&quot;&gt;
                 &lt;script src=&quot;/public/scripts/main.js&quot;&gt;&lt;/script&gt;
             </code></pre>
